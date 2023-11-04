@@ -1,7 +1,9 @@
 # ProFile.ps1
-# Version: 1.0.4
 # Developed by: CoffeeIsCode
 # Copyright (C) 2023 - Caffeinated Software Systems
+$App = @{};
+$PF = $App;
+
 
 <# Settings #> $settings = @{};
 # Only make changes to the beginning of this file if you 
@@ -20,19 +22,27 @@ $settings.MaximumHistoryCount = 30000; <# 30000 is current program default, 4096
 <# Password #> $settings.password = "" <# Remember this get encrpyted and overwrites this file for security #>
 # If you want to change the password more securly type: "protect" or "users".
 
-function userpass() {
-  "So it looks like you want to make some changes to your account. What would you like to change?"
-  if (Test-Path $userpassdata) { "There is already a Username and Password set in this system. "} else {} "1. Username and Password"
-}
-
-function 
-$userpassdata = "$env:USERPROFILE/" <# Need to make a safe location to story username and password data. #>
-
 
 <#
 # WARNING: DO NOT MAKE CHANGES PAST THIS POINT! 
 # Making changes can cause serious problems to your machine.
-#>
+#>               $pf.settings = @{}; $pf.settings.username = $settings.username; $pf.settings.password = $settings.password;
+
+
+
+
+function userpass() {
+  "So it looks like you want to make some changes to your account. What would you like to change?"
+  if (Test-Path $userpassdata) { "There is already a Username and Password set in this system. " } else {} "1. Username and Password"
+}
+
+function setpass() {
+  $pf.password
+}
+$userpassdata = "$env:USERPROFILE/" <# Need to make a safe location to story username and password data. #>
+
+
+
 
 # Globals / Local Variables
 $pf = @{}; # aray to store all the programs information.
@@ -46,6 +56,11 @@ $pf.creator = "Created by CoffeeIsCode"
 $pf.firstrun = ""
 $pf.copyright = "Copyright (C) 2023 - Caffeinated Software Systems - All Right Reserved"
 $pf.firstrun_checked = $false
+
+$pf.update = 6;
+$pf.revision = 2;
+$pf.build = 1;
+$pf.version = "1.0.5" # ProFile applicaion version
 
 $system = @{}; $pf.system = $system;
 function get-system() { 
@@ -72,7 +87,8 @@ function open-onenote() {
   Get-ChildItem $d[0];
 }
 
-function open($dir){ # Function for opening folders quickly in explorer.
+function open($dir) {
+  # Function for opening folders quickly in explorer.
   if ($null -eq $dir) { Start-Process explorer .\ } # if directory is empty then open the current root.
   if ($dir -eq "desktop" -or "desk") { Set-Location "$env:USERPROFILE/Desktop/"; open }
 }
@@ -114,7 +130,7 @@ function downer($time) {
   shutdown /f /s /t $time
 }
 
-function bye(){ downer 0 }
+function bye() { downer 0 }
 
 function redo() { 
   "Starting powershell"; 
@@ -398,3 +414,188 @@ hr; br; # Line and break
 $pf.title
 $pf.copyright
 br; hb;
+
+
+# ProFile
+# Created by: CoffeeIsCode
+# Copyright (c) 2023 - Caffienated Software Systems - All Rights Reserved.
+
+$PF = @{}; 
+if ($null -eq $App) { <# App wasn't assigned #> $App = @{}; $PF = $App; } else { <# App was assigned #> }
+$PF.Copyright = "Copyright (c) 2023 - Caffienated Software Systems - All Rights Reserved."
+$PF.Title = "ProFile"
+$PF.Version = { update=1; build=1; revision=0 };
+$Path = @{}; $PF.Path = $Path;
+$Path.desktop = "$env:USERPROFILE/Desktop";
+
+
+function load() {
+  if (Test-Path )
+}
+
+function save() {
+
+}
+
+<# Asks the user a question #>
+function ask($q) {
+  # asks the user a question
+  if ($null -eq $q) {
+    $answer = Read-Host;
+    response($answer);
+  }
+  else {
+    $answer = Read-Host -prompt "$q"
+    reponse($answer);
+  }
+}
+
+function hr() {}
+function br() {}
+
+function get-name() {
+  "Hello and welcome to ProFile"; 
+}
+
+function get-apps() {
+  "ProFile is now going to check your applications."
+  $App.List = winget list;
+  $PF.AppList = $App.List;
+  $PF.AppCount = $App.count - 10;
+}
+
+function get-app-updates() {
+  $App.Updates
+}
+
+function a($q) {
+  if ($null -eq $q) { "The question cannot be left empty. Please try again. Please try again."; } else {
+    $answer = Read-Host -prompt "$q"  
+  }
+}
+
+function question($question, $answer, $a, $b, $c, $d) {
+  $q = $question; 
+  $answer = read-host -prompt "$q"
+  # check
+  if ($answer -eq $a) {}
+  if ($answer -eq $b) {}
+  if ($answer -eq $c) {}
+  if ($answer -eq $d) {}
+
+}
+
+function response($answer) {
+  if ($null -eq $a) { "Your response was not understood... Please try again"; } <# If the answer is empty. #>
+  # Desktop
+  if ($answer -eq "desk" -or "Desk" -or "Desktop" -or "desktop") { Set-Location "$env:USERPROFILE/Desktop"; }
+    
+}
+
+function desktop() {
+  Set-Location "$env:USERPROFILE/Desktop";
+  Clear-Host
+  get-childItem -Name
+}
+
+function clean($dir) {
+  if ($null -eq $dir) { <# Clean this dir #> } else {
+    Set-Location $dir; <# Clean this location #>
+  }
+}
+
+function sort() {
+  <# This is an addition of the clean function. It's purpose is to sort files to where they should be #>
+
+}
+
+function question($question, $answer, $a, $b, $c, $d) {
+  $q = $question; 
+  $answer = read-host -prompt "$q"
+  # check
+  if ($answer -eq $a) {}
+  if ($answer -eq $b) {}
+  if ($answer -eq $c) {}
+  if ($answer -eq $d) {}
+
+}
+
+<#
+TIMER SHOULD BE MERGED TO THE MAIN PROFILE.PS1
+#>
+
+# Check to see if the variables have been assigned already
+if ($null -eq $App) { $App = @{}; $time = @{}; } else {  }
+# check to see time.start is already running.
+if ($null -eq $time.start) { <# There's already a start time #> } else { $time.start = @{}; <# Creat a start time#> }
+$time.current = @{};
+$app.time = $time;
+
+<# Set ProFile Paths#>
+$path = @{};
+$path.ProFile = "$env:USERPROFILE/Desktop/ProFile/"
+$path.System = "$env:USERPROFILE/Desktop/ProFile/systemdata.dll"
+$app.path = $path;
+
+
+function add-file-sizes() {
+    $dataSize = 0;
+    for ($x = 3; $x -le $f.count; $x++) {
+        
+        if ($f[$x].Length -eq 0) { "Zero" } else {
+            $new = $f[$x].Length
+            
+            $dataSize + $new
+            
+            "Size was $new of new file making the total $dataSize"
+        }
+    }
+}
+
+<# Check to see time data stored #>
+function set-time-file() {
+    if (Test-Path $path.System) { <# File exists #> } else { <#File doesn't exist#> }
+}
+
+function runcount() {
+    if (test-path $path.Profile/sync.dll) {  }
+}
+
+function startTimer() {
+
+}
+
+function start-timer() {
+    $time.all = Get-Date; # store all the info in all
+    $time.day = Get-Date -Format "dddd" # gives day like 'Friday'
+    $time.hour = Get-Date -Format "hh";
+    $time.min = Get-Date -Format "mm";
+    $time.sec = Get-Date -Format "ss";
+    $time.month = Get-Date -Format "MM";
+    $time.day = Get-Date -Format "dd";
+    $time.year = Get-Date -Format "yyyy";
+    
+    <# Alternate methods to get date information 
+        $time.unformated = get-date -Format "d"
+        $time.split = $time.unformated.Split('-');
+        $time.year = $time.split[0];
+        $time.month = $time.split[1];
+        $time.day = $time.split[2];
+    #>
+}
+
+function update-time() {
+    # time.new is to be checked against start time
+    $time.new = @{};
+    $time.new.day = Get-Date -Format "dddd" # gives day like 'Friday'
+    $time.new.hour = Get-Date -Format "hh";
+    $time.new.min = Get-Date -Format "mm";
+    $time.new.sec = Get-Date -Format "ss";
+    $time.new.month = Get-Date -Format "MM";
+    $time.new.day = Get-Date -Format "dd";
+    $time.new.year = Get-Date -Format "yyyy";
+}
+
+function date-formating-example() {
+    Get-Date -Format "dddd MM/dd/yyyy HH:mm K"
+}
