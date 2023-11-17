@@ -1,0 +1,14 @@
+
+
+What's New in Version 2.2.1
+===========================
+- Complete rebuild of ProFile from scratch.
+- Better organizational system of main funcitons and system variables.
+
+
+ProFile Version: 1.1.0 - 1.1.3
+==============================
+- installer.cmd added
+- installer.cmd in ProFile
+- Make the installer.cmd allow for updates and uninstalls.
++ Make the cmd script integrated into the ProFile.ps1 script.
