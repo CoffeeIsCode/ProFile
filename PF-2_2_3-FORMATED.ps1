@@ -1,40 +1,143 @@
-
 ### SETTINGS ###
-$settings = @{};
+$settings = @{
+    # Display
+    width          = 25;
+    height         = 80;
+    mode           = "normal" # Maximum or minimum also valid
+    runHost        = "true" # have runHost in the background if not system doesn't check status
+    cycleTime      = 60 # how many seconds before system checks to see if still running. 5 seconds or less may use a lot of resource.  
+    username       = "CoffeeIsCode", "Handsome", "Mr. Developer", "Master" # As many as you want to follow this pattern. System will choose at random using the system hash codes.
+    gender         = "false"
+    fontColor      = "" <# #>
+    theme          = "Coffee" <# Theme overrights font color. Leave as "" or "false" or "none" if not required #>
+    firstRun       = "check" <# Check if this is first run #>
+    hash1          = "A12DK3AD827"
+    hash2          = "UTY67542JI7"
+    settingsFile   = "settings_001.config"
+    systemFile     = "system_001.config"
+    installProFile = "" <# yes, no, true or false are all valid #>
+    maxThreads     = 2 <# Only increase with higher resource machine 1-2 threads per core is the best standard. #>
+    checkUpdates   = "false" <# if true system only updates apps that are installed #>
+    systemScan     = "main" <# main if software is to scan your computers system. true if this is main, false if not. #>;
+    mainDevice     = "check"; <# check asks you if this is your computer. True and False are also valid. #>
+    debugMode      = $false;
+    index          = "check"
+    indexPriority  = "normal" # slow, medium, fast, max are all valid.
+};
+
+$vocal = @{
+    $vocalFile = ".\vocal.dll";
+    if         = = $true) { setVocal } else { "vocab.dll file is missing."; }
+}
+
+function setVocal() {
+    $v = type.$vocalFile;
+
+    $lines = 0;
+    $max = $v.Count
+    $phraseStart="#l";
+    $phraseType="greeting","ask","response"
+
+    while ($lines -lt $max) {
+        $line = $v[0];
+        $l2=$line[0] + $line[0]; # simple check
+        if ($l2 -eq "<#") {"no.."} 
+        elseif ($l2 -eq "<v") {
+            <# Action when this condition is true #>
+        
+        } 
+
+        $lines = $lines + 1
+    }
+
+}
+
+
+
+
+function choice($question, $mode, $a1, $a2, $a3) {
+
+}
+
+
+
+function greeting() {
+    "Hello there how are you doing today?"
+}
+
+function load($status, $activity, $seconds, $percent) {
+    if ($null -ne $seconds) {
+        <# if seconds is valid #> 
+        cls
+        "Please wait."
+        Write-Progress -Status $status -Activity $activity -SecondsRemaining $seconds
+
+    }
+    elseif ($null -ne $percent) {
+        <# if percent is valid #> 
+        cls
+        "Please wait."
+        Write-Progress -Status $status -Activity $activity -PercentComplete $percent
+    }
+}
+
+function cleanDesktop() {
+    "Checking file types on the desktop..."
+    
+}
+
 function set-settings() {}
 
-
 #!#####################################################
-#!  WARNING - DO NOT MAKE CHANGES BEYOND THIS POINT   #
-#!  Making changes may cause problems to your device. #
+#!  WARNING - DO NOT MAKE CHANGES TO THIS SCRIPT      #
+#!                                                    #
+#!  Making changes may cause all kinds of  problems   #
+#!  to your device.                                   #
 #!#####################################################
 
-#* Globals #
+#* Application Globals #
 $app = @{creator = "CoffeeIsCode"; Version = "2.2.2"; functions = 0; variables = 0 };
 
-#* Script Vars #
-
+#* Script Variables #
 $uptime = @{}; $uptime = Get-Uptime; $uptime.formated = $uptime.TotalHours + ":" + $uptime.TotalMinutes + " : " + $uptime.TotalSeconds;
 $program = @{};
 $task = @{ list = @{}; name = @{} }
 
 $desktop = "$env:userprofile/desktop";
 
-$path = @{
-    desktop = $desktop;
-}
+$path = @{ desktop = $desktop; }
 
-$file = @{ 
-    updateLog = "$env:userprofile/desktop/Update.log"
-};
+$file = @{ updateLog = "$env:userprofile/desktop/Update.log" };
 
-#! Should look into an encryption method to store data #
+#! Should look into an encryption method to store data securly #
 
 $index = @{
     <# Get different types of files and store them here #>
     <# Also be sure to check file hashes for duplicate files. #>
 };
 $system = @{username = $env:USERNAME; computername = $env:COMPUTERNAME }
+
+function cd...() {
+    cd..;cd..;cd..;cd..;cd..;
+}
+
+function firstIndex() {
+    Set-Location $env:windir;
+    cd...
+}
+
+function anyType($p,$a,$b,$c,$d) {
+    if ($p -eq 0) { "Hello there!" }
+
+    $in = Read-Host;
+
+
+    if ($in -ne $null) {
+        "answer"
+    }
+}
+
+function wipe(){"ProFile is going to safely wipe this terminal.";"Press CTRL+C to cancel."; sleep 2; cls; clear-history; "History from terminal erased."; sleep 1; "Go code something amazing!"; "Like you just did but with more parameters, variables and functions..."; sleep 1; "or whatever....";  sleep 3; cls; Clear-History}
 
 function update-globals() {
     $app.program = $program;
@@ -48,17 +151,11 @@ function update-globals() {
 }
 update-globals;
 
-function program-updates() {
-    <#* Program Updates #>
-    "ProFile is now going to check for outdated programs."; "This may take a minute.";
-    $program.update = winget update;
-    $count = $program.update.count;
-    $updates = $program.update[$count - 1];
-    $program.pending = "There are $updates";
-    $program.update > $file.updateLog;
+function ask($mode) {
+    if ($mode -eq 'program-updates') {
+        "Would you like to check to see if any of the software on your system is outdated?"
+    }
 }
-program-updates;
-
 
 function check-online() {
     <# check if device is on the internet #>
@@ -68,6 +165,24 @@ function check-online() {
     $result = $p[2][0];
     if ($result -gt 0) { $app.isOnline = $true; "This device is connected to the internet." } else { $app.isOnline = $false; "This device is having trouble connecting to the internet."; "Please try again later."; }
 }
+
+function get-program-updates() {
+    <#* Program Updates #>
+    "ProFile is now going to check for outdated programs."; "This may take a minute.";
+    $program.update = winget update;
+    $count = $program.update.count;
+    $updates = $program.update[$count - 1];
+    $program.pending = "There are $updates";
+    $program.update > $file.updateLog;
+}
+if ($app.mode -eq 'debug') { get-program-updates } else { ask program-updates }
+
+
+
+
+
+
+
 
 ### GLOBAL VARIABLES ###
 $app = @{title = "ProFile"; version = "2.2.3"; status = "Trial"; debug = $true; copyright = "Copyright (c) 2022-2023 Caffeinated Software Systems - All Rights Reserved"; }
@@ -83,29 +198,28 @@ $programFiles = $env:ProgramFiles; $pf = $programFiles;
 $programFiles32 = "${env:ProgramFiles(x86)}"; $pf32 = $programFiles32;
 
 $path = @{
-    desktop     = $desktop; 
-    user        = $user; 
-    winroot     = $env:windir;
-    pictures    = $pictures; 
-    pics        = $pictures;
-    profileRoot = $profileRoot; # profile path
-    programFiles = $programFiles;
-    pf = $pf;
-    pf32 = $pf32;
+    desktop        = $desktop; 
+    user           = $user; 
+    winroot        = $env:windir;
+    pictures       = $pictures; 
+    pics           = $pictures;
+    profileRoot    = $profileRoot; # profile path
+    programFiles   = $programFiles;
+    pf             = $pf;
+    pf32           = $pf32;
     programFiles32 = $programFiles32;
-    winSys32 = '$env:windir/System32/'; 
-    OneDrive = $env:OneDrive;
+    winSys32       = '$env:windir/System32/'; 
+    OneDrive       = $env:OneDrive;
 };
-
-$file.ext = "exe","dll";
+$file.ext = "exe", "dll";
 
 $index = @{
-    path = @{};
+    path    = @{};
     checked = @{};
-    files = @{};
+    files   = @{};
     folders = @{};
-    size = @{};
-    ext = $file.ext;
+    size    = @{};
+    ext     = $file.ext;
 };
 
 
@@ -115,7 +229,7 @@ $task = @{};
 function get-tasks() {
     $task.list = tasklist;
     $task.taskCount = $task.list.count;
-    if ($task.taskCount -ge 150) { "There are too many programs running on your system at once. "}
+    if ($task.taskCount -ge 150) { "There are too many programs running on your system at once. " }
     $task.memory = @{};
 }
 $drive = @{};
@@ -153,7 +267,8 @@ function checker() {
     if (Test-Path $file.profile) {
         "ProFile is currently installed on this system.";
         #! Should check the version and update if needed #
-    } else {
+    }
+    else {
         # ProFile doesn't exist on this system
         #^ Build an installer for ProFile
         #& Maybe use the cmd installer, but export it from the ProFile script
@@ -330,7 +445,7 @@ function save-history() {
 }
 
 
-function br() {" "};
+function br() { " " };
 
 function start() {
     ;
@@ -407,15 +522,16 @@ function update-timeCheck() {
 }
 
 function get-runCount() {
-    if  (test-path $file.runcount) { 
+    if (test-path $file.runcount) { 
         <# Runcount file exists#> 
         $runCount = type $file.runcount; 
-        $runCount = $runCount+1; 
+        $runCount = $runCount + 1; 
         $system.runcount = $runCount; 
-        $system.runcount > $file.runcount; }
+        $system.runcount > $file.runcount; 
+    }
 }
 
 ### FUNCTIONS ADDED ###
 function google($url) { Start-Process chrome.exe "$url" }
 
-function edge($url) { Start-Process edge.exe - $url}
+function edge($url) { Start-Process edge.exe - $url }

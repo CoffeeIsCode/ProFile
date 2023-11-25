@@ -1,21 +1,154 @@
 ### SETTINGS ###
 $settings = @{
-    color = { fg="blue"; bg="red" }
-    title = "Profile";
+    # Display
+    width=25;
+    height=80;
+    mode="normal" # Maximum or minimum also valid
+    runHost="true" # have runHost in the background if not system doesn't check status
+    cycleTime=60 # how many seconds before system checks to see if still running. 5 seconds or less may use a lot of resource.  
+    username="CoffeeIsCode","Handsome","Mr. Developer","Master" # As many as you want to follow this pattern. System will choose at random using the system hash codes.
+    gender="false"
+    fontColor="" <# #>
+    theme="Coffee" <# Theme overrights font color. Leave as "" or "false" or "none" if not required #>
+    firstRun="check" <# Check if this is first run #>
+    hash1="A12DK3AD827"
+    hash2="UTY67542JI7"
+    settingsFile="settings_001.config"
+    systemFile="system_001.config"
+    installProFile="" <# yes, no, true or false are all valid #>
+    maxThreads=2 <# Only increase with higher resource machine 1-2 threads per core is the best standard. #>
+    checkUpdates="false" <# if true system only updates apps that are installed #>
+    systemScan="main" <# main if software is to scan your computers system. true if this is main, false if not. #>;
+    mainDevice="check"; <# check asks you if this is your computer. True and False are also valid. #>
+    debugMode=$false;
+    index="check"
+    indexPriority="normal" # slow, medium, fast, max are all valid.
+};
+
+$vocal = @{
+    $vocalFile=".\vocal.dll";
+    if ($vocalFile == $true) {setVocal} else {"vocab.dll file is missing."; }
 }
 
-#!####################################################
-#! WARNING - DO NOT MAKE CHANGES BEYOND THIS POINT   #
-#! Making changes may cause problems to your device. #
-#!####################################################
+function setVocal() {
+$read = type $vocalFile
+
+$line = $read.count;
+$max = $read.Length
+
+}
+
+
+
+
+function choice($question, $mode, $a1, $a2, $a3) {
+
+}
+
+
+
+function greeting() {
+    "Hello there how are you doing today?"
+}
+
+function load($status, $activity, $seconds, $percent) {
+    if ($null -ne $seconds) { <# if seconds is valid #> 
+        cls
+        "Please wait."
+        Write-Progress -Status $status -Activity $activity -SecondsRemaining $seconds
+
+    }elseif ($null -ne $percent) { <# if percent is valid #> 
+        cls
+        "Please wait."
+        Write-Progress -Status $status -Activity $activity -PercentComplete $percent
+    }
+}
+
+function cleanDesktop() {
+    "Checking file types on the desktop..."
+    
+}
 
 function set-settings() {}
 
+#!#####################################################
+#!  WARNING - DO NOT MAKE CHANGES TO THIS SCRIPT      #
+#!                                                    #
+#!  Making changes may cause all kinds of  problems   #
+#!  to your device.                                   #
+#!#####################################################
+
+#* Application Globals #
+$app = @{creator = "CoffeeIsCode"; Version = "2.2.2"; functions = 0; variables = 0 };
+
+#* Script Variables #
+$uptime = @{}; $uptime = Get-Uptime; $uptime.formated = $uptime.TotalHours + ":" + $uptime.TotalMinutes + " : " + $uptime.TotalSeconds;
+$program = @{};
+$task = @{ list = @{}; name = @{} }
+
+$desktop = "$env:userprofile/desktop";
+
+$path = @{ desktop = $desktop; }
+
+$file = @{ updateLog = "$env:userprofile/desktop/Update.log" };
+
+#! Should look into an encryption method to store data securly #
+
+$index = @{
+    <# Get different types of files and store them here #>
+    <# Also be sure to check file hashes for duplicate files. #>
+};
+$system = @{username = $env:USERNAME; computername = $env:COMPUTERNAME }
+
+function update-globals() {
+    $app.program = $program;
+    $app.task = $task;
+    $app.file = $file;
+    $app.path = $path;
+    $app.index = $index;
+    $app.sytem = $system;
+    $app.uptime = Get-Uptime;
+    $app.system.uptime = Get-Uptime;
+}
+update-globals;
+
+function ask($mode) {
+    if ($mode -eq 'program-updates') {
+        "Would you like to check to see if any of the software on your system is outdated?"
+    }
+}
+
+function check-online() {
+    <# check if device is on the internet #>
+    "Checking to see if $system.computername is connected to the internet."
+    $pong = ping 8.8.8.8;
+    $p = $pong[8].Split(" = ");
+    $result = $p[2][0];
+    if ($result -gt 0) { $app.isOnline = $true; "This device is connected to the internet." } else { $app.isOnline = $false; "This device is having trouble connecting to the internet."; "Please try again later."; }
+}
+
+function get-program-updates() {
+    <#* Program Updates #>
+    "ProFile is now going to check for outdated programs."; "This may take a minute.";
+    $program.update = winget update;
+    $count = $program.update.count;
+    $updates = $program.update[$count - 1];
+    $program.pending = "There are $updates";
+    $program.update > $file.updateLog;
+}
+if ($app.mode -eq 'debug') { get-program-updates } else { ask program-updates }
+
+
+
+
+
+
+
+
 ### GLOBAL VARIABLES ###
-$app = @{title = "ProFile"; version = "2.2.1"; status = "Trial"; debug = $true; copyright = "Copyright (c) 2022-2023 Caffeinated Software Systems - All Rights Reserved"; }
+$app = @{title = "ProFile"; version = "2.2.3"; status = "Trial"; debug = $true; copyright = "Copyright (c) 2022-2023 Caffeinated Software Systems - All Rights Reserved"; }
 $task = @{}; $task.check = $false; 
 $system = @{}; 
-
 $user = $env:userprofile; 
 $desktop = "$env:userprofile/Desktop"; $desk = $desktop;
 $pictures = "$env:userprofile/pictures"; $pics = $pictures; 
@@ -39,7 +172,6 @@ $path = @{
     winSys32 = '$env:windir/System32/'; 
     OneDrive = $env:OneDrive;
 };
-
 $file.ext = "exe","dll";
 
 $index = @{
@@ -63,13 +195,10 @@ function get-tasks() {
 }
 $drive = @{};
 
-function get-drives() {
+function get-drives() {    
+    $drive.all = Get-Volume;
+};
     
-    $drive = @{
-        all = Get-Volume;
-    };
-    
-}
 
 $program = @{
     chrome = $env:ProgramFiles
@@ -87,22 +216,40 @@ $check = @{
     hash   = @{};
 };
 
+#* GLOBAL VARIABLES ENDS ###
+
+
 function checker() {
     # check each file
+    #^ Only checks ProFile, but it should check every file.
+    
     $c = 0;
     $m = $file.count;
     if (Test-Path $file.profile) {
-        "exists"
-    }
-    else {
-        "doesn't exist"
+        "ProFile is currently installed on this system.";
+        #! Should check the version and update if needed #
+    } else {
+        # ProFile doesn't exist on this system
+        #^ Build an installer for ProFile
+        #& Maybe use the cmd installer, but export it from the ProFile script
     }
 }
 
 
+<# NOTES COLOR CODES
+## ====================
+#* COMPLETED IMPORTANT 
+## GOOD WORK DETAILS
+#! BROKEN AND NEEDS WORK
+#? CONCEPT OR IDEA TO BRAINSTORM
+#& REQUIRED UPDATING
 
 
-### GLOBAL VARIABLES ENDS ###
+#* Update-Globals  = Updates important globals;
+
+#^ Load-Globals    = Loads system variable from the past sessions. 
+#^ Save-Globals    = Saves all system variables for loading later.
+#^ Program-Updated =
 
 
 
@@ -110,15 +257,12 @@ function checker() {
 
 
 
-<# FINISHED FUNCTIONS #>
-# Update-Globals = Update globals.
-# Load-Globals = Loads system variables for the current user and machine if exists. 
-# Save-Globals = Saves important variables.
-#& Develop a role to log all commands / functions.
-# [x] - Update-Globals = Updates system variables
-# [x] - Code-Profile   = 
-# [ ] - 
-# [ ]  -  Name           = Desc
+
+
+# Update-Globals = Updates system variables
+# Code-Profile   = 
+
+#>
 
 function code-profile() { code $profile; } # open vscode with profile file.
 
@@ -133,6 +277,7 @@ function open($a, $b) {
         Start-Process .\ 
     }
 
+
     <# choice is not null #>
     if ($null -ne $op[0] ) {
         if ($op[0] -eq "/?" -or "-help") { 
@@ -143,6 +288,7 @@ function open($a, $b) {
             " ";
             "'OPEN /?' or 'OPEN -help'  = Shows this help page";
             "OPEN "
+        
         }
     } 
 }
@@ -240,19 +386,30 @@ function title($str) {
 function logo() { 
     <# loads the basic logo to page #>
     "This function is not ready in this release..."
-    sleep 2
+    Start-Sleep 2
     "Please update and try again."
-    sleep 1
+    Start-Sleep 1
     "If you are running the latest version it may be a locked feature."
-    sleep 1
+    Start-Sleep 1
     "For more information go to: "
-    sleep 1
+    Start-Sleep 1
     "www.github.com/coffeeiscode"
 }
 
+function title() {
+}
+
+$hist = Get-History;
+function save-history() {
+    
+}
+
+
+function br() {" "};
+
 function start() {
-    " " 
-    "ProFile $app.version 2.2.1 - PowerShell Addon Loaded!"
+    ;
+    "ProFile $app.version - PowerShell Addon Loaded!"
     "Created by: CoffeeIsCode"
     $host.ui.rawui.windowTitle = $app.title + " - Ver " + $app.version + " Status: " + $app.status;
 }
@@ -307,18 +464,33 @@ else {
 }
 
 function cmd($com) {
-	
     if (Test-Path $env:userprofile/temp.cmd) { 
         erase $path.tempCMD
-	    
-
     }
-    
     $com > $env:userprofile/temp.cmd 
+    #! CMD command required!
+}
+function add($name) {
 }
 
-function add($name) {
-	
+function log($type, $mode) { }
+
+# check time and record total runtime
+function update-timeCheck() {
+    $uptime = Get-Uptime;
+    $uptime.formated = $uptime.Hours + ":" + $uptime.Minutes + ":" + $uptime.Seconds;
 }
+
+function get-runCount() {
+    if  (test-path $file.runcount) { 
+        <# Runcount file exists#> 
+        $runCount = type $file.runcount; 
+        $runCount = $runCount+1; 
+        $system.runcount = $runCount; 
+        $system.runcount > $file.runcount; }
+}
+
 ### FUNCTIONS ADDED ###
 function google($url) { Start-Process chrome.exe "$url" }
+
+function edge($url) { Start-Process edge.exe - $url}

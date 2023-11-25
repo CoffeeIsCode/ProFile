@@ -1,8 +1,13 @@
-REM === SETTINGS + ===
 @echo off
+REM === SETTINGS ===
 color e0
 setlocal
+cls
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 title ProFile Installer - Ver:1.0.3 - Packs a bigger punch than Pacman
+title ProFile Installer - Ver:1.0.4 - Packs a bigger punch than One Punch Man
+title ProFile Installer - Ver:1.0.4 - Packs a bigger punch than Godzilla
+
 mode con: lines=20 cols=75
 cls
 
@@ -21,7 +26,10 @@ echo.
 echo Here's What's New in Ver: 1.0.4
 echo -------------------------------
 echo.
-echo 1. check's to see if ProFile is already installed on the system so that echo if it is it won't erase saved files, nor will it update to a never echo echo version yet.
+echo 1. check's to see if ProFile is already installed 
+echo on the system so that if it is, it won't erase 
+echo saved files, nor will it update to a never version
+echo version yet.
 
 
 REM === DOS KEYS ===
@@ -58,15 +66,20 @@ goto uninstall
 
 :uninstall
 set "%userprofile%/Documents/PowerShell/Version.dll"
+
 echo "It seems like there is already an installation of ProFile on this computer. "
 echo "Like to uninstall ProFile and reinstall this version? Program saves won't be lost."
 
 if ("%userprofile%/Documents/PowerShell/Version"); { Clear-Host -
 
 :no_profile
-if ("%userprofile%/Documents/PowerShell/Version") {clear-host
+if exist "%userprofile%/Documents/PowerShell/" goto finished 
 
 :yes_profile
 move ProFile.ps1
 
 if exist Profile.ps1 
+
+
+
+
