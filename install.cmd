@@ -1,17 +1,13 @@
+:Settings
 @echo off
-REM === SETTINGS ===
 color e0
 setlocal
-cls
-REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-title ProFile Installer - Ver:1.0.3 - Packs a bigger punch than Pacman
-title ProFile Installer - Ver:1.0.4 - Packs a bigger punch than One Punch Man
-title ProFile Installer - Ver:1.0.4 - Packs a bigger punch than Godzilla
-
-mode con: lines=20 cols=75
+REM - title ProFile Installer - Ver:1.0.3 - Packs a bigger punch than Pacman \ title ProFile Installer - Ver:1.0.4 - Packs a bigger punch than One Punch Man \  title ProFile Installer - Ver:1.0.4 - Packs a bigger punch than Godzilla
+mode con: lines=20 cols=80
+doskey #=REM
 cls
 
-REM === INTRO ===
+:INTRO
 echo ProFile Installer (A.K.A installer.cmd) Readme
 echo.
 echo This installer may not work properly as it is still in early stages of development.
@@ -31,15 +27,10 @@ echo on the system so that if it is, it won't erase
 echo saved files, nor will it update to a never version
 echo version yet.
 
-
-REM === DOS KEYS ===
-doskey #=REM
-
-REM === Configuration ===
+:DOS_KEYS
 set installpath="%userprofile%/Documents/PowerShell/"
 set onedrive=%userprofile%/OneDrive"
 
-REM === Installing Application ===
 :main
 call install_Check
 
