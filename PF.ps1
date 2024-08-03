@@ -7,7 +7,7 @@
 
 function help() {
     "+===========================================================+"
-    "    What's New in 2.2.5"
+    "    What's New in 2.2.6"
     "+===========================================================+"
     "[x] - Major bug fixes";
     "[x] - Mixed set of differen't functions that have been added."
