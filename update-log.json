@@ -1,7 +1,7 @@
 {
-    "Updatesettings": {
-    "Title":"Simple",
+
+    "Title":{"0":{}"Simple","Major Fixes"},
     "Version-Up":1,
     "Description":"Made changes to the $time.new section in the timer functions.",
-    "Build":1, "Package":0, "Update":5}
+    "Build":1, "Package":0, "Update":5
 }
