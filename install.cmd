@@ -1,56 +1,86 @@
+:settings
 @echo off
 color e0
 setlocal
-title ProFile Installer - Ver:1.0.6 - Packs a bigger punch than Godzilla
-mode con: lines=20 cols=80
-doskey #=REM
+title ProFile Installer - Ver:1.0.7
 cls
 
-:INTRO
-echo ProFile Installer (A.K.A installer.cmd) Readme
+:main
 echo.
-echo This installer may not work properly as it is still in early stages of development.
-echo The original idea was to make the PowerShell script 
-echo write out to a terminal and run the files in the background.
+echo ===============================
+echo       ProFile Installer
+echo          Ver: 1.0.7
+echo ===============================
+echo.
+
+timeout /t 30
+
+cls
+echo ==================================
+echo               ProFile
+echo ==================================
+echo.
+
+echo This installer may not work properly as it is still in early develop
+echo early stages of development. The original idea was to make the PowerShell 
+echo script write out files to where they need to go and run the files in the 
+echo. background.
+echo.
+echo.
 echo This can still be achieved but think it's something that should be
-echo saved for later versions as this installer file is simple yet more complex
+echo saved for later versions as this installer file is simple yet more complex.
 echo than it needs to be so porting it over to PowerShell should be a breeze.
 echo.
-echo Anyway...
+timeout /t 60
+
+cls
+echo ==================================
+echo               ProFile
+echo ==================================
 echo.
-echo Here's What's New in Ver: 1.0.6
-echo -------------------------------
+echo Heres what's new with the latest version of ProFile:
 echo.
-echo 1. Checks to see if PF.ps1 is already installed 
-echo on the system and copies it to all PowerShell profile locations.
+echo - Checks to see if you are connected to the internet
+echo - Performs a quick network speedtest
+echo - Scans your network and scans devices on the network.
+echo - Checks drives that are connected and makes sure they healthy.
+echo - Optimizes your main hard drive
+echo - Every process that it does is logged and read by the system for the next time.
+echo - Checks if the system has a battery and gathers battery data if so.
+echo - Gathers system information and information about the users.
+echo - Checks tasks and services that are installed
+echo - Monitors which ones are running.
+echo - Removes programs from startup.
+echo - Organizes files that are on your desktop and other places.
+echo - Replaces commonly used files with shortcuts.
+echo - Records a backup of all the apps that you have installed
+echo - Checks for updates on frequently used applications.
+echo.
+echo And so much more...
+echo.
 echo.
 
-:DOS_KEYS
-set installpath="%userprofile%\Documents\PowerShell\"
-set onedrive="%userprofile%\OneDrive"
 
-:main
-call :Install_Check
-goto :EOF
+echo on the system and if not copies it to all multiple locations
+echo to ensure that when you run PowerShell on your system ProFile
+echo functionality and commands as well as shortcuts and background
+echo services that help manage your machine to make it run better
+echo for you without you having to type anything.
+echo.
 
-:Install_Check
-if exist "%installpath%PF.ps1" (
+
+echo.
+
+if exist PF.ps1 (
     echo "PF.ps1 found. Proceeding with installation..."
-    call :Copy_Profile
+    copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+    copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.VSCode_profile.ps1"
+    copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.PowerShellISE_profile.ps1"
+    echo "PF.ps1 has been copied to all profile locations."
 ) else (
-    echo "PF.ps1 not found. Installation aborted."
-    goto :EOF
+    echo "Installation aborted due to a critical issue:"
+    echo "Installation files that were required for installation were not found."
+    echo "Make sure to runt"
 )
 
-:Copy_Profile
-REM Copy PF.ps1 to all PowerShell profile locations
-copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.VSCode_profile.ps1"
-copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.PowerShellISE_profile.ps1"
-copy "%installpath%PF.ps1" "%userprofile%\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-
-echo "PF.ps1 has been copied to all profile locations."
-goto :EOF
-
-:EOF
 endlocal
