@@ -60,24 +60,75 @@ function say($str1, $str2, $mode) {
     "<h1>WARNING!</h1>" >> "$env:USERPROFILE/Desktop/w.html"; 
 } 
 
-function check($a, $b, $c) {
-    if ($b -eq "==") {
+function hash($type, $path, $file){
+	$check = null-check $type
+	if ($check -eq $true)
+}
+
+# create varaible to check if drives have changed
+$DriveScan = @{
+	scanCount = 0;
+}; 
+function drive-scan {
+	# quickest way to get connected drives
+	$DriveScan.scanCount
+}
+
+
+# Function to edit a ps1 file the way that I like to write ps1 files. [ ] - Build this and another version of this that is 'the most effiecient' that a .ps1 file can be written. - WIP
+function parse-ps1($filePath, $mode){
+	$fp = check-null $filePath
+	if ($fp -eq $true){} else {}
+	if ($mode -eq 'mine'){}
+	
+	
+	# function example
+	<#
+	function FNAME(){command;command2 "Command text";}
+	#>
+	# varaible example 1 (constant)
+	Set-Variable NAME VALUE -option constant
+	# varaible example 2 (variable)
+	Set-Variable NAME VALUE
+	# varaible example 3 (valid)
+	Set-Variable -Name "name" -Value "value" #then option if applicable
+}
+
+function null-check($Variable){
+	if ($null -eq $Variable) {
+		if ($debugMode -eq $True){ Write}
+		return $True
+	} else {
+		return $False
+	}
+}
+
+function check($filePath) {
+    	
+	if ($b -eq "==") {
         // is equal
         if ($a -eq $c) {
 
         }
     }
-
 }
-function indexCheck() {}
-function indexBuild() {};
 
-function saveStrip() {
-    ;
+# [ ] - indexCheck, indexBuild and saveStrip
+function indexCheck(){}
 
-    
+function indexBuild(){}
 
+function saveStrip() {}
+
+function check-file($filePath){
+	# checks if a file exists and returns true or false
+	if (Test-Path "$filePath") { 
+		return $true
+	} else {
+		return $false
+	}
 }
+
 function checkIndex() {
     if (test-path $file.indexFile) {} else {}
 }
@@ -1461,9 +1512,13 @@ function check-online() {
     if ($result -gt 0) { $app.isOnline = $true; "This device is connected to the internet." } else { $app.isOnline = $false; "This device is having trouble connecting to the internet."; "Please try again later."; }
 }
 
-
+# [ ] - This is one of my favorite globals... but it needs work. - WIP
 ### GLOBAL VARIABLES ###
-$app = @{title = "ProFile"; version = "2.2.3"; status = "Trial"; debug = $true; copyright = "Copyright (c) 2022-2023 Caffeinated Software Systems - All Rights Reserved"; }
+
+function get-globals(){
+	if (Test-Path)
+}
+$app = @{title = "ProFile"; version = "2.2.5"; status = "Trial"; debug = $true; copyright = "Copyright (c) 2022-2023 Caffeinated Software Systems - All Rights Reserved"; }
 $task = @{}; $task.check = $false; 
 $system = @{}; 
 $user = $env:userprofile; 
@@ -1530,7 +1585,6 @@ $check = @{
 
 #* GLOBAL VARIABLES ENDS ###
 
-
 function checker() {
     # check each file
     #^ Only checks ProFile, but it should check every file.
@@ -1548,7 +1602,6 @@ function checker() {
     }
 }
 
-
 <# NOTES COLOR CODES
 ## ====================
 #* COMPLETED IMPORTANT 
@@ -1557,24 +1610,12 @@ function checker() {
 #? CONCEPT OR IDEA TO BRAINSTORM
 #& REQUIRED UPDATING
 
-
 #* Update-Globals  = Updates important globals;
-
 #^ Load-Globals    = Loads system variable from the past sessions. 
 #^ Save-Globals    = Saves all system variables for loading later.
 #^ Program-Updated =
-
-
-
-
-
-
-
-
-
 # Update-Globals = Updates system variables
 # Code-Profile   = 
-
 #>
 
 function code-profile() { code $profile; } # open vscode with profile file.

@@ -1,19 +1,57 @@
+# ProFile
+# Version: 3.0.1
+# Developed by: CoffeeIsCode
+#
+
+$Error_Start = $Error; # Get errors before script is loaded and then after to get errors for error-log
+
+### APP VARIABLE ###
+$App = @{
+	Debug = $null; # [ ] - build function to update debugMode here.
+	File = @{}
+	Path = @{
+		UserData = "$env:userprofile/userdata.dll";
+	}
+	Program = [ordered]@{
+		Chrome = "$env:ProgramFiles/Google/Chrome/Application/chrome.exe";
+		Edge = $null; # [ ] - update with msedge path.
+		Opera = $null; # [ ] - update with opera path.
+		Safari = $null; #[ ] - update with safari path.
+		Avast = $null;
+		# [ ] - add more browsers to this list.
+	}
+	Index  = @{
+		Checked = $false;
+		Check = @{}
+	}
+	Task = [ordered]@{
+		# [ ] - remove redundency and build function to get RAW data and then update Task array.
+		RAW=tasklist; 
+		list = tasklist /nh; 
+		name = @{} 
+	}
+	Functions = [ordered]@{
+		ProFile = @{}
+	}
+	Error = @{
+		Start = $Error_Start;
+		End = $null # $Error_End - needs to be added to start.
+	}
+}
 
 
-
-#^ FILE AND PLACEMENT ###
-$file = @{}; $app.file = $file;
-
+### FILE AND PLACEMENT ###
+$file = $app.file;
 
 ### INDEX ###
-$index = @{}; $app.index = $index;
-$index.checked = $false; 
-$program = @{}; $app.program = $program;
-$task = @{ list = @{}; name = @{} }; $app.task = $task;
+$index = $app.index
+$index.checked = $false;
 
-<#* Path / Files#>
-$path = @{}; $app.path = $path;
-$path.userdata = "$env:userprofile/userdata.dll";
+$program = $app.program;
+
+
+### PATH ###
+$Path = $App.Path;
 $path.documents = $documents;
 
 #& SYSTEM &#
@@ -60,29 +98,77 @@ function say($str1, $str2, $mode) {
     "<h1>WARNING!</h1>" >> "$env:USERPROFILE/Desktop/w.html"; 
 } 
 
-function check($a, $b, $c) {
-    if ($b -eq "==") {
+function hash($type, $path, $file){
+	$check = null-check $type
+	if ($check -eq $true)
+}
+
+# create varaible to check if drives have changed
+$DriveScan = @{
+	scanCount = 0;
+}; 
+function drive-scan {
+	# quickest way to get connected drives
+	$DriveScan.scanCount
+}
+
+
+# Function to edit a ps1 file the way that I like to write ps1 files. [ ] - Build this and another version of this that is 'the most effiecient' that a .ps1 file can be written. - WIP
+function parse-ps1($filePath, $mode){
+	$fp = check-null $filePath
+	if ($fp -eq $true){} else {}
+	if ($mode -eq 'mine'){}
+	
+	
+	# function example
+	<#
+	function FNAME(){command;command2 "Command text";}
+	#>
+	# varaible example 1 (constant)
+	Set-Variable NAME VALUE -option constant
+	# varaible example 2 (variable)
+	Set-Variable NAME VALUE
+	# varaible example 3 (valid)
+	Set-Variable -Name "name" -Value "value" #then option if applicable
+}
+
+function null-check($Variable){
+	if ($null -eq $Variable) {
+		if ($debugMode -eq $True){ Write}
+		return $True
+	} else {
+		return $False
+	}
+}
+
+function check($filePath) {
+    	
+	if ($b -eq "==") {
         // is equal
         if ($a -eq $c) {
 
         }
     }
-
-}
-function indexCheck() {}
-function indexBuild() {};
-
-function saveStrip() {
-    ;
-
-    
-
-}
-function checkIndex() {
-    if (test-path $file.indexFile) {} else {}
 }
 
+# [ ] - indexCheck, indexBuild and saveStrip
+function indexCheck(){}
 
+function indexBuild(){}
+
+function saveStrip() {}
+
+function check-file($filePath){
+	# checks if a file exists and returns true or false
+	if (Test-Path "$filePath") { 
+		return $true
+	} else {
+		return $false
+	}
+}
+
+# [ ] Check-Index - Checks to see if there is an index file already created - WIP
+function checkIndex() { <# Checks to see if an index is already created and returns a boolean value. #> if (test-path $file.indexFile){return $true}else{return $false}}
 
 $system = @{username = $env:USERNAME; computername = $env:COMPUTERNAME }; $app.system = $system;
 
@@ -105,13 +191,12 @@ function update-globals() {
 }
 update-globals;
 
-
-### FINISHED FUNCTIONS ###
-
-function check-online() {
+function Check-Online() {
     <# check if device is on the internet #>
-    "Checking to see if $system.computername is connected to the internet."
-    $pong = ping 8.8.8.8;
+    "Checking to see if this computer is connected to the internet."
+    # ping 
+	if (test-path $env:windir/System32/ping.exe){
+	$pong = ping 8.8.8.8;
     $pong2 = $pong[8].Split(" = ");
     $result = $pong2[2][0];
     if ($result -gt 0) { 
@@ -123,7 +208,13 @@ function check-online() {
         "This device is having trouble connecting to the internet."; 
         "Please try again later.";  
     }
-}
+	} else {
+		# ping.exe doesn't exist / use other method.
+		# [ ] Use other method to get online status. - WIP
+	}
+}; 
+Set-Alias online Check-Online; 
+Set-Alias online-check Check-Online;
 
 function wait($t) {
     if ($t -eq $null) { Start-Sleep 2 }
@@ -371,10 +462,31 @@ function update-globals() {
    
 } 
 
-### RUN FUNCTIONS IN ORDER OF IMPORTANCE ###
 update-globals # important
 
-<# FINISHED FUNCTIONS - END #>
+function redo($a, $b) {
+    # lower case conversion
+    $b = $b.ToLower();
+    $a = $a.ToLower();
+
+    if ($null -ne $a) {
+        # first parameter not null 
+		
+		# if first word is 'in' or 'with'
+        if ($a -eq "in" -or $a -eq "with") {
+            if ($b -eq "powershell") { Start-Process powershell }
+            if ($b -eq "powershell_ise") { Start-Process powershell_ise }
+            if ($b -eq "pwsh_ise") { Start-Process powershell_ise }
+            if ($b -eq "ise") { Start-Process powershell_ise }
+            if ($b -eq "pwsh") { Start-Process pwsh }
+        }
+		
+        # if first choice is powershell 
+        if ($a -eq "powershell") { Start-Process powershell }
+        if ($a -eq "pwsh") { Start-Process pwsh }
+        if ($a -eq "powershell_ise" -or "ise") { Start-Process powershell_ise }
+    }
+}
 
 function redo($a, $b) {
 
@@ -433,7 +545,7 @@ function title($str) {
     $host.ui.rawui.windowTitle = "$str"; 
 }
 
-function logo() { 
+function unready() { 
     <# loads the basic logo to page #>
     "This function is not ready in this release..."
     Start-Sleep 2
@@ -444,7 +556,47 @@ function logo() {
     "For more information go to: "
     Start-Sleep 1
     "www.github.com/coffeeiscode"
+	Start-Sleep 1
 }
+
+function option($mode,$options,$delay){
+	# if delay is null - set default delay
+	if ($null -eq $time){$delay = 5}
+	
+	if ($null -eq $mode){
+		$c = Choice /c "yn" /d "n"  /t $delay
+	}
+	if ($mode -eq "yn" -or "y/n" or "yesno" -or "bool" -or "boolean"){
+		$c = Choice /c "yn" /d "n"  /t $delay
+	}
+}
+
+function Wait($delay){
+	# set default delay if none given
+	if ($null -eq $delay){$delay=5;}
+	
+	# delay is 0, none or no
+	if ($delay -eq "none" -or "no" -or 0){
+		Pause
+		return
+	}
+	
+	# check type code
+	if ($delay.getTypeCode -ne Int32){
+		$typecode = $delay.getTypeCode(); # store type code
+		
+		# debugMode error
+		if ($debugMode -eq $true){
+			
+			Write-Error "Wait function 'delay' parameter type not valid. Int32 required, $typecode given."; 
+		}
+		return
+	}
+	
+	# run timeout
+	timeout /t $time
+}
+Set-Alias 
 
 function start() {
     " " 
@@ -496,19 +648,14 @@ else {
 }
 
 function cmd($com) {
-	
     if (Test-Path $env:userprofile/temp.cmd) { 
         erase $path.tempCMD
-	    
-
-    }
-    
+	}
     $com > $env:userprofile/temp.cmd 
 }
 
-function add($name) {
-	
-}
+# WIP
+function add($name) {}
 ### FUNCTIONS ADDED ###
 function google($url) { Start-Process chrome.exe "$url" }
 ### SETTINGS ###
@@ -619,34 +766,6 @@ update-globals # important
 
 <# FINISHED FUNCTIONS - END #>
 
-function redo($a, $b) {
-
-    # lower case conversion
-    $b = $b.ToLower();
-    $a = $a.ToLower();
-
-    
-
-    if ($null -ne $a) {
-        <# first choice typed #>
-        
-
-        # if first word is 'in' or 'with'
-        if ($a -eq "in" -or $a -eq "with") {
-            if ($b -eq "powershell") { Start-Process powershell }
-            if ($b -eq "powershell_ise") { Start-Process powershell_ise }
-            if ($b -eq "pwsh_ise") { Start-Process powershell_ise }
-            if ($b -eq "ise") { Start-Process powershell_ise }
-            if ($b -eq "pwsh") { Start-Process pwsh }
-        }
-
-        # if first choice is powershell 
-        if ($a -eq "powershell") { Start-Process powershell }
-        if ($a -eq "pwsh") { Start-Process pwsh }
-        if ($a -eq "powershell_ise" -or "ise") { Start-Process powershell_ise }
-    }
-
-}
 
 function task($op) {
     #$lower = $op.tolower();
@@ -725,9 +844,8 @@ function cmd($com) {
     $com > $env:userprofile/temp.cmd 
 }
 
-function add($name) {
-	
-}
+function add($name) {}
+
 ### FUNCTIONS ADDED ###
 function google($url) { Start-Process chrome.exe "$url" }
 
@@ -735,10 +853,10 @@ function google($url) { Start-Process chrome.exe "$url" }
 $settings = @{};
 function set-settings() {}
 
-#!#####################################################
-#!  WARNING - DO NOT MAKE CHANGES BEYOND THIS POINT   #
-#!  Making changes may cause problems to your device. #
-#!#####################################################
+##########################################################################################
+#  WARNING - DO NOT MAKE CHANGES BEYOND THIS POINT                                       #
+#  Making changes could cause problems to your device or have other unexpected resualts. #
+##########################################################################################
 
 #* Globals #
 $app = @{creator = "CoffeeIsCode"; Version = "2.2.2"; functions = 0; variables = 0 };
@@ -899,15 +1017,28 @@ function open($a, $b) {
     } 
 }
 
+function redo($a, $b) {
+    # lower case conversion
+    $b = $b.ToLower();
+    $a = $a.ToLower();
+    if ($null -ne $a) {
+        <# first choice typed #>
+        
+        # if first word is 'in' or 'with'
+        if ($a -eq "in" -or $a -eq "with") {
+            if ($b -eq "powershell") { Start-Process powershell }
+            if ($b -eq "powershell_ise") { Start-Process powershell_ise }
+            if ($b -eq "pwsh_ise") { Start-Process powershell_ise }
+            if ($b -eq "ise") { Start-Process powershell_ise }
+            if ($b -eq "pwsh") { Start-Process pwsh }
+        }
 
-### RUN FUNCTIONS IN ORDER OF IMPORTANCE ###
-update-globals # important
-
-
-
-<# FINISHED FUNCTIONS - END #>
-
-
+        # if first choice is powershell 
+        if ($a -eq "powershell") { Start-Process powershell }
+        if ($a -eq "pwsh") { Start-Process pwsh }
+        if ($a -eq "powershell_ise" -or "ise") { Start-Process powershell_ise }
+    }
+}
 
 function redo($a, $b) {
 
@@ -1216,18 +1347,24 @@ function get-program-updates() {
     $program.update > $file.updateLog;
 }
 # If in debug mode? [ ] - Call it something else. WIP  ($App.Debug / $Debug)
-if ($app.mode -eq 'debug') { get-program-updates } else { ask program-updates }
+if ($app.mode -eq 'debug') { get-program-updates 
+} else { 
+	ask program-updates 
+}
+
 
 function get-program-updates() {
     <#* Program Updates #>
     "ProFile is now going to check for outdated programs."; "This may take a minute.";
-    $program.update = winget update;
+    $program.update = winget upgrade;
     $count = $program.update.count;
     $updates = $program.update[$count - 1];
     $program.pending = "There are $updates";
     $program.update > $file.updateLog;
 }
-if ($app.mode -eq 'debug') { get-program-updates } else { ask program-updates }
+# get or ask for program updates
+# if ($app.mode -eq 'debug') { get-program-updates } else { ask program-updates }
+if ($debugMode -eq $true) { get-program-updates } else { ask program-updates }
 
 
 ### GLOBAL VARIABLES ###
@@ -1461,13 +1598,25 @@ function check-online() {
     if ($result -gt 0) { $app.isOnline = $true; "This device is connected to the internet." } else { $app.isOnline = $false; "This device is having trouble connecting to the internet."; "Please try again later."; }
 }
 
-
+# [ ] - This is one of my favorite globals... but it needs work. - WIP
 ### GLOBAL VARIABLES ###
-$app = @{title = "ProFile"; version = "2.2.3"; status = "Trial"; debug = $true; copyright = "Copyright (c) 2022-2023 Caffeinated Software Systems - All Rights Reserved"; }
+
+function get-globals(){
+	if (Test-Path)
+}
+
+$app = @{
+	title = "ProFile"; 
+	version = "2.2.5"; 
+	status = "Starting";
+	reg = 0;
+	debug = $true; # for $debugMode 
+	copyright = "Copyright (c) 2022-2024 - Caffeinated Software Systems Inc. All Rights Reserved"; 
+}
 $task = @{}; $task.check = $false; 
 $system = @{}; 
 $user = $env:userprofile; 
-$desktop = "$env:userprofile/Desktop"; $desk = $desktop;
+$desktop = "$env:userprofile/Desktop/"; $desk = $desktop;
 $pictures = "$env:userprofile/pictures"; $pics = $pictures; 
 $documents = "$env:userprofile/documents"; $docs = $documents;
 $OneDrive = "$env:userprofile/OneDrive/";
@@ -1510,11 +1659,10 @@ function get-tasks() {
     if ($task.taskCount -ge 150) { "There are too many programs running on your system at once. " }
     $task.memory = @{};
 }
+
 $drive = @{};
 
-$program = @{
-    chrome = $env:ProgramFiles
-}
+
 
 $file = @{
     tempCMD = "$env:userprofile/temp.cmd";
@@ -1529,7 +1677,6 @@ $check = @{
 };
 
 #* GLOBAL VARIABLES ENDS ###
-
 
 function checker() {
     # check each file
@@ -1548,7 +1695,6 @@ function checker() {
     }
 }
 
-
 <# NOTES COLOR CODES
 ## ====================
 #* COMPLETED IMPORTANT 
@@ -1557,24 +1703,12 @@ function checker() {
 #? CONCEPT OR IDEA TO BRAINSTORM
 #& REQUIRED UPDATING
 
-
 #* Update-Globals  = Updates important globals;
-
 #^ Load-Globals    = Loads system variable from the past sessions. 
 #^ Save-Globals    = Saves all system variables for loading later.
 #^ Program-Updated =
-
-
-
-
-
-
-
-
-
 # Update-Globals = Updates system variables
 # Code-Profile   = 
-
 #>
 
 function code-profile() { code $profile; } # open vscode with profile file.
@@ -1620,46 +1754,6 @@ function update-globals() {
 ### RUN FUNCTIONS IN ORDER OF IMPORTANCE ###
 update-globals # important
 
-
-
-<# FINISHED FUNCTIONS - END #>
-
-
-
-function redo($a, $b) {
-
-    # lower case conversion
-    $b = $b.ToLower();
-    $a = $a.ToLower();
-
-    
-
-    if ($null -ne $a) {
-        <# first choice typed #>
-        
-
-        # if first word is 'in' or 'with'
-        if ($a -eq "in" -or $a -eq "with") {
-            if ($b -eq "powershell") { Start-Process powershell }
-            if ($b -eq "powershell_ise") { Start-Process powershell_ise }
-            if ($b -eq "pwsh_ise") { Start-Process powershell_ise }
-            if ($b -eq "ise") { Start-Process powershell_ise }
-            if ($b -eq "pwsh") { Start-Process pwsh }
-        }
-
-        # if first choice is powershell 
-        if ($a -eq "powershell") { Start-Process powershell }
-        if ($a -eq "pwsh") { Start-Process pwsh }
-        if ($a -eq "powershell_ise" -or "ise") { Start-Process powershell_ise }
-    }
-
-}
-
-
-
-
-
-
 function logo() { 
     <# loads the basic logo to page #>
     "This is not ready in this release..."
@@ -1696,13 +1790,16 @@ function loadBreak($seconds) {
     }
 }
 
+function log-error($title,$error){
+	
+}
+
 function redo() {
     "Starting new shell";
     Start-Process pwsh.exe; 
     timeout 5
     exit; exit; exit;
     title CLOSE
-
 }
 
 function get-apps() {
@@ -1845,7 +1942,6 @@ function echo($str) {
 }
 
 function debugMode() {
-
     # Positive Testing
     if ($app.debugMode -eq "true" -or $true -or "yes") { program-updates }
     if ($app.devMode -eq "true" -or $true -or "yess") { clear-host; echo "Dev Mode: ON"; sleep 2; echo "Checking program updates"; sleep 1; program-updates }
@@ -1856,14 +1952,7 @@ function debugMode() {
 }
 debugMode
 
-function check-online() {
-    <# check if device is on the internet #>
-    "Checking to see if $system.computername is connected to the internet."
-    $pong = ping 8.8.8.8;
-    $p = $pong[8].Split(" = ");
-    $result = $p[2][0];
-    if ($result -gt 0) { $app.isOnline = $true; "This device is connected to the internet." } else { $app.isOnline = $false; "This device is having trouble connecting to the internet."; "Please try again later."; }
-}
+
 
 $time.end = Get-Date;
 function timeDiff() {
@@ -2052,21 +2141,7 @@ function downer($time) {
 
 function bye() { downer 0 }
 
-function redo() { 
-    "Starting powershell"; 
-    "Checking for later version of powershell"; 
-    if (Test-Path "C:/Program Files/PowerShell/*/pwsh.exe") { 
-        "Later version of powershell found"; 
-        Start-Process pwsh.exe 
-    } 
-    else { 
-        "Only older version of powershell found"; 
-        Start-Process powershell.exe 
-    }; 
-    "ProFile is getting ready to close this shell \N"; 
-    wait 7; 
-    exit; 
-}
+
 
 function search-file() {
 }
@@ -2262,7 +2337,27 @@ function firstrun() {
     }
 } firstrun
 
-function write-index() { $index.new = Get-ChildItem -Path "$env:USERPROFILE" -Name -Recurse }
+function write-index() { $index.new = Get-ChildItem -Path "$env:USERPROFILE" -Name -Recurse 
+}
+
+function pretty-date(){}
+function pretty-time(){}
+function pretty-file($title,$int){
+	# Function to generate a valid file name (without overwriting files with the same name) Useful for other script functions that write to file and rather have multiple files than overwriting data.
+	# Best Algorithm:
+	# computername_user_title_int.file_extension
+	
+	$ComputerName = $env:COMPUTERNAME;
+	$UserName = $env:USERNAME;
+	if ($null -eq $int){
+		# check if file exists before making a new number.
+		$d = dir -file -name
+		if ($d -match $title){
+			$c = $d -match $title
+			$int = $c.count + 1;
+		}
+	}
+}
 
 function pretty($filePath) {}
 
@@ -2469,4 +2564,42 @@ function date-formating-example() {
 function start() {
     get-tasks
 }
-start 
+
+function debug($str, $title){
+	# new line
+	Write-Host " "
+	if ($debugMode -eq $true){
+		if ($null -ne $title){
+			Write-Host -foregroundcolor blue -nonewline "$title: "
+		}
+		Write-Host -foregroundcolor black -backgroundColor white -nonewline "$str"
+	} else {
+		Write-Host -foregroundcolor black -backgroundColor white "$str"
+	}
+}
+
+function notes(){
+	# debugMode output
+	if ($debugMode -eq $true){"Checking ProFile Notes"}
+	if (Test-Path "$env:homedrive/ProFile/Notes/") {
+		if ($debugMode -eq $true){"Checking ProFile Notes"}
+		
+	} else {}
+}
+
+function build-profile-html(){
+	# Build ProFile Log HTML page
+	# WIP
+	# [ ] - WIP
+    $htmlParams = @{
+      Title = "ProFile Service Log"
+      Body = $App
+      PreContent = "<P>Generated by ProFile</P>"
+      PostContent = "For more information visit the open source project at:  https://www.GitHub.com/CoffeeIsCode/ProFile/"
+    }
+    Get-Service | ConvertTo-Html @htmlParams | 
+        Out-File "C:/ProFile/HTML/ProFile-Service-Log.htm"
+    Invoke-Item "C:/ProFile/HTML/ProFile-Service-Log.htm"
+}
+Write-Host -foregroundcolor purple" "Building ProFile HTML Log"
+build-profile-html

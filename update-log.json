@@ -1,7 +1,9 @@
 {
 
-    "Title":{"0":{}"Simple","Major Fixes"},
-    "Version-Up":1,
-    "Description":"Made changes to the $time.new section in the timer functions.",
-    "Build":1, "Package":0, "Update":5
+    "Title":{
+        "0":"Simple",
+        "1":"Major bug fixes.",
+        "2":"Function testing"
+    },
+    "Description":"Made changes to the $time.new section in the timer functions."
 }
