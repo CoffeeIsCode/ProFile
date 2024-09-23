@@ -97,49 +97,49 @@ function Decrypt {
 }
 
 function Encrypt-File {
-    param (
-        [string]$filePath,
-        [string]$key,
-        [string]$iv
-    )
-    Clear-Host
-    Write-Host -ForegroundColor Blue -BackgroundColor White "File Encryption"
-    try {
-        $Key, $IV = Get-KeyAndIV -Key $key -IV $iv
-        $data = Get-Content -Path $filePath -Raw
-        $encryptedData = Encrypt-Data -data $data -Key $Key -IV $IV
-        $encryptedFilePath = "$filePath.enc"
-        Set-Content -Path $encryptedFilePath -Value "$encryptedData`n$key"
-        Write-Host -ForegroundColor Green -BackgroundColor Black "File encrypted and saved as $encryptedFilePath"
-    }
-    catch {
-        Write-Host -ForegroundColor Red -BackgroundColor Black "Error: $_"
-    }
+  param (
+    [string]$filePath,
+    [string]$key,
+    [string]$iv
+  )
+  Clear-Host
+  Write-Host -ForegroundColor Blue -BackgroundColor White "File Encryption"
+  try {
+    $Key, $IV = Get-KeyAndIV -Key $key -IV $iv
+    $data = Get-Content -Path $filePath -Raw
+    $encryptedData = Encrypt-Data -data $data -Key $Key -IV $IV
+    $encryptedFilePath = "$filePath.enc"
+    Set-Content -Path $encryptedFilePath -Value "$encryptedData`n$key"
+    Write-Host -ForegroundColor Green -BackgroundColor Black "File encrypted and saved as $encryptedFilePath"
+  }
+  catch {
+    Write-Host -ForegroundColor Red -BackgroundColor Black "Error: $_"
+  }
 }
 
 function Decrypt-File {
-    param (
-        [string]$encryptedFilePath,
-        [string]$key,
-        [string]$iv
-    )
-    Clear-Host
-    Write-Host -ForegroundColor Blue -BackgroundColor White "File Decryption"
-    try {
-        $Key, $IV = Get-KeyAndIV -Key $key -IV $iv
-        $content = Get-Content -Path $encryptedFilePath -Raw
-        $encryptedData, $savedKey = $content -split "`n"
-        if ($savedKey -ne $key) {
-            throw "Invalid key provided."
-        }
-        $decryptedData = Decrypt-Data -encryptedData $encryptedData -Key $Key -IV $IV
-        $decryptedFilePath = $encryptedFilePath -replace '\.enc$', ''
-        Set-Content -Path $decryptedFilePath -Value $decryptedData
-        Write-Host -ForegroundColor Green -BackgroundColor Black "File decrypted and saved as $decryptedFilePath"
+  param (
+    [string]$encryptedFilePath,
+    [string]$key,
+    [string]$iv
+  )
+  Clear-Host
+  Write-Host -ForegroundColor Blue -BackgroundColor White "File Decryption"
+  try {
+    $Key, $IV = Get-KeyAndIV -Key $key -IV $iv
+    $content = Get-Content -Path $encryptedFilePath -Raw
+    $encryptedData, $savedKey = $content -split "`n"
+    if ($savedKey -ne $key) {
+      throw "Invalid key provided."
     }
-    catch {
-        Write-Host -ForegroundColor Red -BackgroundColor Black "Error: $_"
-    }
+    $decryptedData = Decrypt-Data -encryptedData $encryptedData -Key $Key -IV $IV
+    $decryptedFilePath = $encryptedFilePath -replace '\.enc$', ''
+    Set-Content -Path $decryptedFilePath -Value $decryptedData
+    Write-Host -ForegroundColor Green -BackgroundColor Black "File decrypted and saved as $decryptedFilePath"
+  }
+  catch {
+    Write-Host -ForegroundColor Red -BackgroundColor Black "Error: $_"
+  }
 }
 
 function Encrypt-Directory {
