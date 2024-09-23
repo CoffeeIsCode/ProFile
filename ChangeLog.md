@@ -1,34 +1,58 @@
-# **ProFile** _Change Log_
+# ProFile - Change Log
+
+This is a log for changes made to the ProFile project. Everything that is changed should be recorded in here one way or another.
+
+## Table of Contents
+
+## Log
+
+- Removed ProFile*2-2-5_Revised*\*.ps1 files.
+- Created _Encryption.ps1_
+- Updated LICENSE
+- 
 
 ## What's New in **ProFile v2.2.7**
 
-1. [X] Major bug fixes
-    1. [X] Removed duplicate functions that caused problems
-    2. [X] Updated functions
-2. [X] Updated ProFile `<kyb>`help `</kyb> command.`
-3. [ ] Complete command list
-4. [X] Updated quick locations and paths.
-5. [X] Battery information collection and storage.
-    1. [ ] Quick and more accurate estimation of time remaining. (Better than Windows.)
+1. [x] Major bug fixes
+   1. [x] Removed duplicate functions that caused problems
+   2. [x] Updated functions
+2. [x] Updated ProFile `<kyb>`help `</kyb>` command.
+3. [x] Complete command list
+4. [x] Updated quick locations and paths.
+5. [x] Collect
+6. [x] Battery usage details
+   1. [ ] Collects battery information.
+   2. [ ] Collects resource information.
+   3. [ ] Creates health report based off saved battery data.
+   4. [ ] Quick estimation of time remaining.
+7. [ ] Encryption and Decryption methods for data and sensitive information that runs off external script.
+8. [ ] Portable mode for multiple machines.
 
 ## Updated Functions
 
-Our latest update supercharges your terminal experience with better commands allowisng for quicker response time and much more control over your system.
+Our latest update supercharges your terminal experience with better commands allowing for quicker response time and much more control over your system.
 
-### Command
+It also checks what computer that you are using and builds multiple reports and if the system is running off the new portable mode it copies these documents and won't run it again at startup making it much more efficient.
 
+## What We Are Working On
 
-#### _Ghost_ and _Deghost_
+### Command List
 
-#### Online-Check or Check-Online 
+#### **_Ghost / Deghost:_**
 
-### Commands
+Hides or unhides the current folder that you are in or you can add a parameter after calling the command to hide or unhide a specific path.
 
-| Command                                | Parameters | Description                                                                                                    |
-| -------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------- |
-| Ghost                                  | [-Path]    | Hides the sub folders and files that you are currently located to by default if -Path parameter is not used. |
-| Deghost                                | [-Path     | Unhides sub folders and files that you are currently located to by default if -Path parameter is not used.   |
-| Online-Check, <br />Check-Online<br /> |            |                                                                                                                |
+#### Online-Check / Check-Online / Online / Offline
+
+Online / Offline will return True or False depending on whether or not the device is connected.
+
+### Command Table
+
+| Command                         | Parameters | Description                                                                                                  |
+| ------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------ |
+| Ghost                           | [-Path]    | Hides the sub folders and files that you are currently located to by default if -Path parameter is not used. |
+| Deghost                         | [-Path     | Unhides sub folders and files that you are currently located to by default if -Path parameter is not used.   |
+| Online-Check,<br />Check-Online |            |                                                                                                              |
 
 [ ] - Write the functions to here in list format. Try different ways.
 [ ] -
