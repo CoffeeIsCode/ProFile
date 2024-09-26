@@ -3,7 +3,8 @@
     "ignorePaths": [],
     "dictionaryDefinitions": [],
     "dictionaries": [],
-    "words": [],
+    "words": ["functions","ProFile","Functions","Function"],
     "ignoreWords": [],
-    "import": []
+    "import": [],
+    "language": "en,en-US"
 }

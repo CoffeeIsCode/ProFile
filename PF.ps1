@@ -1,39 +1,70 @@
-#   ProFile -
-#   Version: 2.2.7
+#   PF.ps1
+#   Version: 2.2.8
 #   Copyright © 2023-2024 - Caffeinated Software Systems - All Rights Reserved
 #   Developed By: CoffeeIsCode
-#   Updated: Dec, 15, 2024
+#   Updated: Sep, 26, 2024
 
-$Err = [ordered]{ pre = $error.count; script = $null; }
+# Get errors from console at start
+$Err = [ordered]@{pre = $error.count; script = $null; end=$null}
 
-# Function to run at en of script to get the differenec and see if there were any issues with loading the script.
-
-function get-errors{
-    # Check to see if data is already set
-    if ($Err.script -ne $null -or $err.script -ne "") {
-            $err.script = $error.count;
+function update-system-help{
+    if (test-path C:\ProFile\Update.log) {
+        $t = type update.log;
+        if ($t -imatch "Updated help"){
+            # help was already updated
         } else {
+            update-help -UICulture "en-US"
 
+            ""
         }
-
+    }
+    update-help -UICulture "en-US"
 }
 
-function help {
-    Write-Host "+===========================================================+"
-    Write-Host "    What's New in 2.2.7"
-    Write-Host "+===========================================================+"
-    Write-Host "- Major bug fixes."
-    Write-Host "- Removed duplicate functions that were conflicting."
-    Write-Host "- Corrected typographical errors."
-     Write-Host "- Added function to check and log any errors. "
+# Set version information
+Set-Variable -Name "Build" -Value 2 -Option Constant
+Set-Variable -Name "Revision" -Value 2 -Option Constant
+Set-Variable -Name "Udate" -Value 8 -Option Constant
+
+$Updates = @{};
+
+# Write-Host changes
+Set-Alias "Host" "write-host"
+function green($str){Host -foregroundColor green "$str"}
+function blue($str){Host -foregroundColor blue "$str"}
+function red($str){Host -foregroundColor red "$str"}
+function yellow($str){Host -foregroundColor yellow "$str"}
+function magenta($str){Host -foregroundColor magenta "$str"}
+function black($str){Host -foregroundColor black "$str"}
+function white($str){Host -foregroundColor white "$str"}
+
+
+function green-same($str){Host -foregroundColor green -nonewline "$str"}
+function blue-same($str){Host -foregroundColor blue -nonewline "$str"}
+
+function whats-new {
+    Host -foregroundColor blue "+===========================================================+"
+    Host -foregroundColor white -nonewline "    What's New in "
+    Host -foregroundColor blue "2.2.8"
+    Host -foregroundColor blue "+===========================================================+"
+
+    Host -foregroundColor magenta "- Added function to check and log any errors. "
+    Host -foregroundColor red "- Major bug fixes."
+    Host -foregroundColor yellow "- Removed duplicate functions that were conflicting."
+    Host -foregroundColor green "- Corrected typographical errors."
+}
+
+$updates = @{}
+function updates($title,$details){
+    $date = Get-Date;
+    $time = Get-Date
+    $updates[$updates.count] = "[$title]"
 }
 
 function parse(){}
 
 ### GLOBALS ###
-$app = @{
-    
-}
+$app = @{}
 $app.devMode = $false
 $app.debugMode = $false
 $app.title = "ProFile"
@@ -224,11 +255,34 @@ function cmd($com) {
     $com > $file.tempCMD
 }
 
-function start {
+function Profile-Head {
+    $app.status = "Running";
+    Clear-Host
     Write-Host ""
     Write-Host "ProFile $app.version 2.2.1 - PowerShell Addon Loaded!"
     Write-Host "Created by: CoffeeIsCode"
     $host.ui.rawui.windowTitle = "$app.title - Ver $app.version - Status: $app.status"
 }
 
-start
+Profile-Head
+
+$File
+
+# Get end error count
+function get-errors{
+    # check to see if end count exists.
+    if ($null -eq $err.end) {
+        "Getting error information and saving information to ProFile log."
+        $err.end = $error.count
+        if ($err.end -gt $err.pre){
+            # there were some errors in the script...
+            $err.script = $err.end - $err.pre;
+        } else {
+            # there were no errors
+            $err.script = 0;
+        }
+    } 
+    # if there were errors
+}
+
+get-errors;
