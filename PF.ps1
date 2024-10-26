@@ -1,5 +1,5 @@
 #   PF.ps1
-#   Version: 2.2.8
+#   Version: 2.2.9
 #   Copyright © 2023-2024 - Caffeinated Software Systems - All Rights Reserved
 #   Developed By: CoffeeIsCode
 #   Updated: Sep, 26, 2024
@@ -24,23 +24,35 @@ function update-system-help{
 # Set version information
 Set-Variable -Name "Build" -Value 2 -Option Constant
 Set-Variable -Name "Revision" -Value 2 -Option Constant
-Set-Variable -Name "Udate" -Value 8 -Option Constant
-
+Set-Variable -Name "Update" -Value 8 -Option Constant
 $Updates = @{};
 
-# Write-Host changes
-Set-Alias "Host" "write-host"
-function green($str){Host -foregroundColor green "$str"}
-function blue($str){Host -foregroundColor blue "$str"}
-function red($str){Host -foregroundColor red "$str"}
-function yellow($str){Host -foregroundColor yellow "$str"}
-function magenta($str){Host -foregroundColor magenta "$str"}
-function black($str){Host -foregroundColor black "$str"}
-function white($str){Host -foregroundColor white "$str"}
+# Write to host with different colors
+Set-Alias "Host" "Write-Host"
+function Write-Green($str){Host -foregroundColor green "$str"}
+function Write-Blue($str){Host -foregroundColor blue "$str"}
+function Write-Red($str){Host -foregroundColor red "$str"}
+function Write-Yellow($str){Host -foregroundColor yellow "$str"}
+function Write-Magenta($str){Host -foregroundColor magenta "$str"}
+function Write-Black($str){Host -foregroundColor black "$str"}
+function Write-White($str){Host -foregroundColor white "$str"}
 
+Set-Alias "Green" "Write-Green"
+Set-Alias "Blue" "Write-Blue"
+Set-Alias "Red" "Write-Red"
+Set-Alias "Issue" "Write-Red"
+Set-Alias "Yellow" "Write-Yellow"
+Set-Alias "Pink" "Write-Magenta"
+Set-Alias "Magenta" "Write-Magenta"
+Set-Alias "Black" "Write-Black"
+Set-Alias "White" "Write-White"
 
-function green-same($str){Host -foregroundColor green -nonewline "$str"}
-function blue-same($str){Host -foregroundColor blue -nonewline "$str"}
+# Write to host in different colors on the same line
+function NNL-Green($str){Host -foregroundColor "green" -nonewline "$str"}
+function NNL-Blue($str){Host -foregroundColor "blue" -nonewline "$str"}
+function NNL-Red($str){Host -foregroundColor "red" -nonewline "$str"}
+function NNL-Yellow($str){Host -foregroundColor "yellow" -nonewline "$str"}
+# [ ] - Finish making the NNL colors
 
 function whats-new {
     Host -foregroundColor blue "+===========================================================+"
