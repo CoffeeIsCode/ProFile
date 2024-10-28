@@ -1,29 +1,41 @@
-# ProFile - Change Log
+# ProFile ReadMe File
 
-This is a log for changes made to the ProFile project. Everything that is changed should be recorded in here one way or another.
+## A quickly growing  
 
-## Table of Contents
+This log was originaly for changes made to the ProFile project. Everything that was changed should be recorded in here one way or another. Then I realized that this project didn't have a ReadMe.md so I converted the _ChangeLog_ as it was the closest thing at the time.
+
+### Table of Contents
 
 1. What's New
-2. Updated Functions
+2. Latest Update
+3. Updated Functions
+4. 
 
-## **What's New In 2.2.8**
+### What's New
 
-* [ ] Minor bug fixes
+This section keeps track of all the updates and is going to probably end up with parts getting moved down the page or to another page all together.
 
-## **2.2.7**
+##ProFile - Ver:2.2.8**
+1. [X] Major bug fixes
+2. [X] Many function updates and added commands.
+3. [X] Minor bug fixes in current functions.
+  4. [X] Changed some of the content that some of them output.     
+5. [X] System wide _logging_ for everything.
+6. [X] Error handling added that appends an _Error.log_.
+
+## **ProFile - Ver:2.2.7**
 
 1. [X] Major bug fixes
-    1. [X] Removed duplicate functions that caused problems
-    2. [X] Updated functions
+  1. [X] Removed duplicate functions that caused problems
+  2. [X] Updated functions
 2. [X] Updated ProFile `<kyb>`help `</kyb>` command.
 3. [X] Complete command list
 4. [X] Updated quick locations and paths.
 5. [X] Battery usage details
-    1. [ ] Collects battery information.
-    2. [ ] Collects resource information.
-    3. [ ] Creates health report based off saved battery data.
-    4. [ ] Quick estimation of time remaining.
+  1. [ ] Collects battery information.
+  2. [ ] Collects resource information.
+  3. [ ] Creates health report based off saved battery data.
+  4. [ ] Quick estimation of time remaining.
 6. [X] Encryption and Decryption methods for data and sensitive information that runs off external script.
 7. [ ] Portable mode.
 
@@ -33,11 +45,24 @@ Our latest __updates__ supercharges your terminal experience with better command
 
 It also checks what computer that you are using and builds multiple reports and if the system is running off the new portable mode it copies these documents and won't run it again at startup making it much more efficient.
 
-## What We Are Working On
+### What We Are Working On
+
+* [ ] - Developing of a GUI 
+* [ ] - Splitting functions into more managable scripts _(as the project gets larger I find that it is getting harder to keep track of.)_
+* [ ] - Standalone Installer
+* [ ] - Exciting features that are going to make ProFile for everyone.
+  * [X] - Message and file encryption / decryption (Part 2)
+  * [ ] - Text to speech. 
 
 ### Command List
 
-**Ghost / Deghost** Hides or unhides the current folder that you are in or you can add a parameter after calling the command to hide or unhide a specific path.
+
+| Command | Description | Usage |
++---------+-------------+-------+
+| <kyb>Encrypt<kyb> | -Encrypts
+| <kyb>Decrypt<kyb> | 
+
+| **Ghost / Deghost** | Hides or unhides the current folder that you are in or you can add a parameter after calling the command to hide or unhide a specific path. |
 ***Deghost*** Unhides the contents of the directory you are
 
 #### Online-Check / Check-Online / Online / Offline
